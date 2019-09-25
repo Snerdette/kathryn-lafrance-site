@@ -9,24 +9,39 @@ module.exports = {
     },
     devtool: 'cheap-module-eval-source-map',
     entry: './dev/js/index.js',
+    mode: 'development',
+    output: {
+        path: __dirname + '/src/js/bundle.min.js',
+        filename: 'bundle.js'
+    },
+    resolve: {
+        extensions:
+            [ '.js', '.jsx'],
+        modules:
+            [
+                path.join(__dirname, "src"),
+                "node_modules"
+            ]
+    },
+    plugins: [
+        new webpack.optimize.OccurrenceOrderPlugin()
+    ],
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.js$/,
-                loaders: ['babel'],
-                exclude: /node_modules/
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
             },
             {
                 test: /\.scss/,
                 loader: 'style-loader!css-loader!sass-loader'
             }
         ]
-    },
-    output: {
-        path: 'src',
-        filename: 'js/bundle.min.js'
-    },
-    plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin()
-    ]
+    }
 };
