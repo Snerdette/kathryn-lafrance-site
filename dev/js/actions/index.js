@@ -5,3 +5,11 @@ export const selectUser = (user) => {
         payload: user
     }
 };
+
+export const selectProject = (project) => {
+  console.log ("You've Clicked on Project: ", project.title);
+  return {
+      type: 'PROJECT_SELECTED',
+      payload: project
+  }
+};
